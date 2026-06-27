@@ -1,0 +1,670 @@
+/* ============================================================
+   style.css – Juego Educativo: Historia de Rosario de la Frontera
+   Diseño moderno, colorido e infantil. Responsive completo.
+   ============================================================ */
+
+/* ── Variables ─────────────────────────────────────────────── */
+:root {
+  --primary:    #6C63FF;
+  --primary-dk: #4B44CC;
+  --accent:     #FF6584;
+  --yellow:     #FFD166;
+  --green:      #06D6A0;
+  --blue:       #118AB2;
+  --bg:         #F7F8FF;
+  --card:       #FFFFFF;
+  --text:       #2D2D3A;
+  --text-light: #6B6B80;
+  --border:     #E8E8F0;
+  --shadow:     0 4px 20px rgba(108,99,255,.15);
+  --shadow-sm:  0 2px 8px rgba(0,0,0,.08);
+  --radius:     18px;
+  --radius-sm:  10px;
+  --transition: .25s cubic-bezier(.4,0,.2,1);
+  --font:       'Nunito', 'Segoe UI', sans-serif;
+}
+
+/* ── Reset ─────────────────────────────────────────────────── */
+*, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+html { font-size: 16px; scroll-behavior: smooth; }
+body {
+  font-family: var(--font);
+  background: var(--bg);
+  color: var(--text);
+  min-height: 100dvh;
+  -webkit-tap-highlight-color: transparent;
+  overflow-x: hidden;
+}
+button { cursor: pointer; font-family: inherit; border: none; background: none; }
+p { line-height: 1.65; }
+h1,h2,h3 { line-height: 1.2; }
+
+/* ── Importar fuente ────────────────────────────────────────── */
+@import url('https://fonts.googleapis.com/css2?family=Nunito:wght@400;600;700;800;900&display=swap');
+
+/* ============================================================
+   LAYOUT PRINCIPAL
+   ============================================================ */
+#app {
+  max-width: 480px;
+  margin: 0 auto;
+  min-height: 100dvh;
+  display: flex;
+  flex-direction: column;
+  position: relative;
+}
+
+/* Pantallas */
+.screen {
+  display: none;
+  flex-direction: column;
+  padding: 1.25rem 1rem 2rem;
+  min-height: 100dvh;
+  animation: fadeIn .3s ease;
+}
+.screen.active { display: flex; }
+
+@keyframes fadeIn {
+  from { opacity: 0; transform: translateY(12px); }
+  to   { opacity: 1; transform: translateY(0); }
+}
+
+/* ── Títulos de pantalla ───────────────────────────────────── */
+.screen-title {
+  font-size: 1.6rem;
+  font-weight: 900;
+  margin: .75rem 0 .25rem;
+  color: var(--text);
+}
+.screen-sub {
+  font-size: .95rem;
+  color: var(--text-light);
+  margin-bottom: 1rem;
+}
+
+/* ============================================================
+   BOTONES
+   ============================================================ */
+.btn-primary {
+  background: linear-gradient(135deg, var(--primary), var(--primary-dk));
+  color: #fff;
+  font-size: 1.05rem;
+  font-weight: 800;
+  padding: .85rem 1.75rem;
+  border-radius: 50px;
+  box-shadow: 0 4px 15px rgba(108,99,255,.4);
+  transition: transform var(--transition), box-shadow var(--transition);
+  width: 100%;
+}
+.btn-primary:active { transform: scale(.97); box-shadow: none; }
+.btn-primary.btn-xl { font-size: 1.2rem; padding: 1rem 2rem; }
+
+.btn-secondary {
+  background: var(--card);
+  color: var(--primary);
+  border: 2px solid var(--primary);
+  font-size: .95rem;
+  font-weight: 700;
+  padding: .7rem 1.25rem;
+  border-radius: 50px;
+  transition: background var(--transition), color var(--transition);
+}
+.btn-secondary:active { background: var(--primary); color: #fff; }
+
+.btn-back {
+  display: inline-flex;
+  align-items: center;
+  gap: .35rem;
+  font-size: .9rem;
+  font-weight: 700;
+  color: var(--primary);
+  padding: .4rem .75rem;
+  border-radius: 50px;
+  background: rgba(108,99,255,.08);
+  margin-bottom: .5rem;
+  transition: background var(--transition);
+}
+.btn-back:active { background: rgba(108,99,255,.2); }
+
+.btn-danger {
+  background: #fff;
+  color: #E53935;
+  border: 2px solid #E53935;
+  font-size: .9rem;
+  font-weight: 700;
+  padding: .7rem 1.25rem;
+  border-radius: 50px;
+  width: 100%;
+  margin-top: 1rem;
+}
+
+/* ============================================================
+   BARRA DE PROGRESO
+   ============================================================ */
+.progress-bar-wrap {
+  display: flex;
+  align-items: center;
+  gap: .5rem;
+  margin: .5rem 0;
+}
+.progress-label { font-size: .8rem; color: var(--text-light); white-space: nowrap; }
+.progress-bar {
+  flex: 1;
+  height: 10px;
+  background: var(--border);
+  border-radius: 50px;
+  overflow: hidden;
+}
+.progress-fill {
+  height: 100%;
+  background: linear-gradient(90deg, var(--primary), var(--accent));
+  border-radius: 50px;
+  transition: width .6s ease;
+}
+.progress-pct { font-size: .8rem; font-weight: 700; color: var(--primary); }
+
+/* ============================================================
+   ESTRELLAS
+   ============================================================ */
+.star { font-size: 1.4rem; color: #DDD; transition: color .2s; }
+.star.filled { color: var(--yellow); text-shadow: 0 0 8px rgba(255,209,102,.6); }
+
+/* ============================================================
+   PANTALLA: INICIO
+   ============================================================ */
+.home-header {
+  text-align: center;
+  padding: 2rem 1rem 1rem;
+}
+.home-logo {
+  font-size: 4rem;
+  animation: float 3s ease-in-out infinite;
+}
+@keyframes float {
+  0%,100% { transform: translateY(0); }
+  50%      { transform: translateY(-10px); }
+}
+.home-title {
+  font-size: 1.9rem;
+  font-weight: 900;
+  color: var(--text);
+  margin: .5rem 0;
+}
+.home-title span { color: var(--primary); }
+.home-subtitle { color: var(--text-light); font-size: 1rem; }
+
+.home-progress-card {
+  background: var(--card);
+  border-radius: var(--radius);
+  padding: 1rem 1.25rem;
+  box-shadow: var(--shadow-sm);
+  margin: 1rem 0;
+  text-align: center;
+}
+.home-progress-card p { font-size: .9rem; color: var(--text-light); margin-bottom: .4rem; }
+.home-stars { font-size: 1rem; font-weight: 700; color: var(--yellow); margin-top: .4rem !important; }
+
+.home-btns { display: flex; flex-direction: column; gap: .75rem; margin: .5rem 0; }
+.home-btns-row { display: flex; gap: .5rem; }
+.home-btns-row .btn-secondary { flex: 1; font-size: .8rem; padding: .6rem .5rem; }
+
+.home-credit {
+  text-align: center;
+  font-size: .8rem;
+  color: var(--text-light);
+  margin-top: 1.5rem;
+}
+
+/* ============================================================
+   PANTALLA: CAPÍTULOS
+   ============================================================ */
+.chapters-list { display: flex; flex-direction: column; gap: .75rem; margin-top: .5rem; }
+
+.chapter-card {
+  background: var(--card);
+  border-radius: var(--radius);
+  padding: 1rem;
+  display: flex;
+  align-items: center;
+  gap: .9rem;
+  box-shadow: var(--shadow-sm);
+  cursor: pointer;
+  transition: transform var(--transition), box-shadow var(--transition);
+  border-left: 5px solid var(--ch-color, var(--primary));
+}
+.chapter-card:active { transform: scale(.98); box-shadow: none; }
+.chapter-card.locked {
+  opacity: .55;
+  cursor: default;
+  filter: grayscale(.5);
+}
+.chapter-card.done { border-left-color: var(--green); }
+
+.chapter-emoji { font-size: 2.2rem; flex-shrink: 0; }
+.chapter-info { flex: 1; }
+.chapter-num { font-size: .75rem; font-weight: 700; color: var(--text-light); text-transform: uppercase; letter-spacing: .05em; }
+.chapter-info h3 { font-size: 1rem; font-weight: 800; margin: .1rem 0; }
+.chapter-info p  { font-size: .82rem; color: var(--text-light); }
+
+.chapter-status { text-align: right; }
+.lock-msg { font-size: .72rem; color: var(--text-light); }
+.badge-new {
+  font-size: .7rem;
+  font-weight: 800;
+  background: var(--accent);
+  color: #fff;
+  padding: .2rem .55rem;
+  border-radius: 50px;
+}
+
+/* ============================================================
+   PANTALLA: HISTORIA
+   ============================================================ */
+.story-header {
+  border-radius: var(--radius);
+  padding: 1.5rem 1rem;
+  text-align: center;
+  margin-bottom: 1rem;
+  transition: background .4s;
+}
+.story-emoji { font-size: 3.5rem; margin-bottom: .5rem; }
+.story-header h2 { font-size: 1.4rem; font-weight: 900; }
+
+.story-body {
+  background: var(--card);
+  border-radius: var(--radius);
+  padding: 1.25rem;
+  box-shadow: var(--shadow-sm);
+  flex: 1;
+  font-size: 1.05rem;
+  line-height: 1.7;
+  margin-bottom: 1rem;
+}
+.story-body strong { color: var(--primary); }
+.story-body em     { color: var(--accent); font-style: normal; font-weight: 700; }
+
+.story-nav {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  gap: .75rem;
+}
+.story-nav .btn-primary,
+.story-nav .btn-secondary { flex: 1; }
+
+/* ============================================================
+   PANTALLA: MINIJUEGO – MEMOTEST
+   ============================================================ */
+.memory-grid {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: .6rem;
+  margin: .75rem 0;
+}
+.mem-card {
+  aspect-ratio: 1;
+  border-radius: var(--radius-sm);
+  background: linear-gradient(135deg, var(--primary), var(--primary-dk));
+  display: flex; align-items: center; justify-content: center;
+  font-size: 1.6rem;
+  cursor: pointer;
+  position: relative;
+  box-shadow: var(--shadow-sm);
+  transition: transform .2s;
+}
+.mem-card:active { transform: scale(.95); }
+.mem-front {
+  font-size: 1.8rem;
+  color: rgba(255,255,255,.7);
+  font-weight: 900;
+}
+.mem-back {
+  position: absolute;
+  top: 0; left: 0; right: 0; bottom: 0;
+  display: flex; align-items: center; justify-content: center;
+  font-size: 1.8rem;
+  background: var(--card);
+  border-radius: var(--radius-sm);
+  border: 3px solid var(--primary);
+  opacity: 0;
+  transition: opacity .2s;
+}
+.mem-card.flipped .mem-back,
+.mem-card.matched .mem-back { opacity: 1; }
+.mem-card.matched { border: 3px solid var(--green); }
+.mem-card.matched .mem-back { border-color: var(--green); }
+
+/* ============================================================
+   PANTALLA: MINIJUEGO – VERDADERO/FALSO
+   ============================================================ */
+.tf-list { display: flex; flex-direction: column; gap: .75rem; }
+.tf-item {
+  background: var(--card);
+  border-radius: var(--radius);
+  padding: 1rem;
+  box-shadow: var(--shadow-sm);
+  border-left: 4px solid var(--border);
+  transition: border-color .3s;
+}
+.tf-item.tf-correct { border-left-color: var(--green); }
+.tf-item.tf-wrong   { border-left-color: var(--accent); }
+.tf-text { font-size: .95rem; font-weight: 600; margin-bottom: .6rem; }
+.tf-btns { display: flex; gap: .5rem; }
+.btn-tf {
+  flex: 1;
+  padding: .55rem .5rem;
+  border-radius: 50px;
+  font-size: .85rem;
+  font-weight: 700;
+  border: 2px solid var(--border);
+  background: var(--bg);
+  color: var(--text);
+  transition: background .2s, color .2s;
+}
+.btn-tf:disabled { opacity: .55; cursor: default; }
+.btn-true:active  { background: var(--green); color: #fff; border-color: var(--green); }
+.btn-false:active { background: var(--accent); color: #fff; border-color: var(--accent); }
+.tf-result { font-size: .82rem; font-weight: 700; margin-top: .4rem; color: var(--primary); }
+
+/* ============================================================
+   PANTALLA: MINIJUEGO – LÍNEA DEL TIEMPO
+   ============================================================ */
+.timeline-cards { display: flex; flex-direction: column; gap: .6rem; margin: .75rem 0; }
+.tl-card {
+  display: flex;
+  align-items: center;
+  gap: .75rem;
+  background: var(--card);
+  border-radius: var(--radius-sm);
+  padding: .85rem 1rem;
+  box-shadow: var(--shadow-sm);
+  cursor: pointer;
+  border: 2px solid transparent;
+  transition: border-color .2s, transform .15s;
+}
+.tl-card:active { transform: scale(.98); }
+.tl-card.tl-selected {
+  border-color: var(--primary);
+  background: rgba(108,99,255,.06);
+}
+.tl-num {
+  font-size: 1.4rem;
+  font-weight: 900;
+  color: var(--primary);
+  width: 2rem;
+  text-align: center;
+}
+.tl-text { font-size: .92rem; font-weight: 600; }
+
+/* ============================================================
+   PANTALLA: MINIJUEGO – MATCH
+   ============================================================ */
+.match-wrap {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: .6rem;
+  margin: .75rem 0;
+}
+.match-col { display: flex; flex-direction: column; gap: .6rem; }
+.match-item {
+  background: var(--card);
+  border-radius: var(--radius-sm);
+  padding: .7rem .75rem;
+  font-size: .85rem;
+  font-weight: 700;
+  text-align: center;
+  box-shadow: var(--shadow-sm);
+  cursor: pointer;
+  border: 2px solid transparent;
+  transition: border-color .2s, background .2s;
+  min-height: 3rem;
+  display: flex; align-items: center; justify-content: center;
+}
+.match-left  { border-left: 4px solid var(--primary); }
+.match-right { border-right: 4px solid var(--accent);  }
+.match-item.selected { border-color: var(--primary); background: rgba(108,99,255,.08); }
+.match-item.match-ok { border-color: var(--green); background: rgba(6,214,160,.1); cursor: default; }
+.match-item.match-err{ border-color: var(--accent); background: rgba(255,101,132,.1); }
+
+/* ============================================================
+   PANTALLA: MINIJUEGO – PICK
+   ============================================================ */
+.pick-card {
+  background: var(--card);
+  border-radius: var(--radius);
+  padding: 1.25rem;
+  box-shadow: var(--shadow-sm);
+  text-align: center;
+}
+.pick-emoji { font-size: 3rem; margin-bottom: .5rem; }
+.pick-clue  { font-size: 1rem; font-weight: 700; margin-bottom: 1rem; }
+.pick-opts  { display: flex; flex-direction: column; gap: .6rem; }
+.btn-pick {
+  background: var(--bg);
+  border: 2px solid var(--border);
+  border-radius: 50px;
+  padding: .75rem 1rem;
+  font-size: .95rem;
+  font-weight: 700;
+  text-align: left;
+  transition: background .2s, border-color .2s;
+}
+.btn-pick:active { background: rgba(108,99,255,.1); border-color: var(--primary); }
+.btn-pick.pick-ok  { background: rgba(6,214,160,.15); border-color: var(--green); }
+.btn-pick.pick-err { background: rgba(255,101,132,.15); border-color: var(--accent); }
+.btn-pick:disabled { cursor: default; }
+.pick-done { text-align: center; padding: 1rem 0; }
+
+/* ============================================================
+   PANTALLA: QUIZ
+   ============================================================ */
+.quiz-card {
+  background: var(--card);
+  border-radius: var(--radius);
+  padding: 1.25rem;
+  box-shadow: var(--shadow-sm);
+  margin-bottom: 1rem;
+}
+.quiz-q {
+  font-size: 1.1rem;
+  font-weight: 800;
+  margin: .75rem 0 1rem;
+}
+.quiz-opts { display: flex; flex-direction: column; gap: .6rem; }
+.btn-quiz-opt {
+  background: var(--bg);
+  border: 2px solid var(--border);
+  border-radius: var(--radius-sm);
+  padding: .8rem 1rem;
+  font-size: .95rem;
+  font-weight: 600;
+  text-align: left;
+  transition: background .2s, border-color .2s;
+}
+.btn-quiz-opt:active { background: rgba(108,99,255,.1); border-color: var(--primary); }
+.btn-quiz-opt.quiz-ok  { background: rgba(6,214,160,.18);  border-color: var(--green); color: #056044; }
+.btn-quiz-opt.quiz-err { background: rgba(255,101,132,.18); border-color: var(--accent); color: #9B2335; }
+.btn-quiz-opt:disabled { cursor: default; }
+.quiz-fact {
+  margin-top: .75rem;
+  background: rgba(108,99,255,.07);
+  border-radius: var(--radius-sm);
+  padding: .7rem .9rem;
+  font-size: .88rem;
+  font-weight: 600;
+  color: var(--primary-dk);
+  border-left: 4px solid var(--primary);
+}
+
+/* ============================================================
+   PANTALLA: RESULTADO / MEDALLA
+   ============================================================ */
+.result-hero {
+  border-radius: var(--radius);
+  padding: 2rem 1rem;
+  text-align: center;
+  margin-bottom: 1rem;
+}
+.result-emoji { font-size: 4rem; animation: pop .5s ease; }
+@keyframes pop {
+  0%   { transform: scale(0); }
+  70%  { transform: scale(1.2); }
+  100% { transform: scale(1); }
+}
+.result-hero h2 { font-size: 1.4rem; font-weight: 900; margin: .5rem 0 .2rem; }
+.result-stars {
+  display: flex;
+  justify-content: center;
+  gap: .5rem;
+  margin: .75rem 0;
+  font-size: 2rem;
+}
+.result-score { text-align: center; font-size: 1.3rem; font-weight: 800; color: var(--primary); margin-bottom: .25rem; }
+.result-msg   { text-align: center; font-size: 1rem; color: var(--text-light); margin-bottom: 1.25rem; }
+
+/* ============================================================
+   PANTALLA: PROGRESO
+   ============================================================ */
+.prog-list { display: flex; flex-direction: column; gap: .6rem; margin: .75rem 0; }
+.prog-row {
+  display: flex;
+  align-items: center;
+  gap: .75rem;
+  background: var(--card);
+  border-radius: var(--radius-sm);
+  padding: .85rem;
+  box-shadow: var(--shadow-sm);
+}
+.prog-emoji { font-size: 1.8rem; }
+.prog-info  { flex: 1; font-size: .85rem; }
+.prog-info strong { font-size: .9rem; display: block; margin-bottom: .15rem; }
+.prog-badge { font-size: 1.3rem; }
+.badge-done  { color: var(--green); }
+.badge-open  { color: var(--primary); }
+.badge-lock  { color: var(--text-light); }
+
+/* ============================================================
+   PANTALLA: CONFIGURACIÓN
+   ============================================================ */
+.settings-list { display: flex; flex-direction: column; gap: .75rem; margin: 1rem 0; }
+.setting-row {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  background: var(--card);
+  border-radius: var(--radius-sm);
+  padding: 1rem 1.25rem;
+  box-shadow: var(--shadow-sm);
+  font-size: 1rem;
+  font-weight: 600;
+}
+/* Toggle switch */
+.toggle { position: relative; display: inline-block; width: 52px; height: 28px; }
+.toggle input { opacity: 0; width: 0; height: 0; }
+.slider {
+  position: absolute;
+  inset: 0;
+  background: #ccc;
+  border-radius: 50px;
+  transition: background .2s;
+  cursor: pointer;
+}
+.slider::before {
+  content: '';
+  position: absolute;
+  width: 22px; height: 22px;
+  left: 3px; top: 3px;
+  background: #fff;
+  border-radius: 50%;
+  transition: transform .2s;
+  box-shadow: 0 1px 4px rgba(0,0,0,.2);
+}
+.toggle input:checked + .slider { background: var(--primary); }
+.toggle input:checked + .slider::before { transform: translateX(24px); }
+
+.settings-info {
+  margin-top: auto;
+  padding-top: 1.5rem;
+  text-align: center;
+  color: var(--text-light);
+  font-size: .82rem;
+  line-height: 1.8;
+}
+
+/* ============================================================
+   PANTALLA: CRÉDITOS
+   ============================================================ */
+.credits-hero {
+  text-align: center;
+  padding: 2rem 1rem 1rem;
+}
+.credits-emoji { font-size: 4rem; margin-bottom: .5rem; }
+.credits-hero h2 { font-size: 1.5rem; font-weight: 900; line-height: 1.3; }
+.credits-body { display: flex; flex-direction: column; gap: .75rem; margin: 1rem 0; }
+.credit-card {
+  background: var(--card);
+  border-radius: var(--radius-sm);
+  padding: 1rem 1.25rem;
+  box-shadow: var(--shadow-sm);
+}
+.credit-card h3 { font-size: .95rem; font-weight: 800; margin-bottom: .3rem; color: var(--primary); }
+.credit-card p  { font-size: .88rem; color: var(--text-light); }
+.credit-card strong { color: var(--text); }
+
+/* ============================================================
+   MENSAJE DE JUEGO GENÉRICO
+   ============================================================ */
+.game-msg {
+  text-align: center;
+  font-size: .95rem;
+  font-weight: 700;
+  color: var(--primary);
+  margin: .75rem 0;
+  min-height: 1.4rem;
+  transition: color .2s;
+}
+
+/* ============================================================
+   RESPONSIVE – Tablets y escritorio
+   ============================================================ */
+@media (min-width: 600px) {
+  #app { max-width: 520px; }
+  .screen { padding: 1.5rem 1.5rem 3rem; }
+  .home-logo { font-size: 5rem; }
+  .home-title { font-size: 2.2rem; }
+  .memory-grid { grid-template-columns: repeat(4, 1fr); }
+}
+
+@media (min-width: 900px) {
+  body { background: linear-gradient(135deg, #EEF0FF 0%, #F7F8FF 100%); }
+  #app {
+    max-width: 480px;
+    margin: 1.5rem auto;
+    border-radius: 2rem;
+    box-shadow: 0 20px 60px rgba(108,99,255,.18);
+    overflow: hidden;
+    background: var(--bg);
+  }
+  .screen { min-height: calc(100dvh - 3rem); }
+}
+
+/* ── Reducir movimiento si el usuario lo prefiere ─────────── */
+@media (prefers-reduced-motion: reduce) {
+  *, *::before, *::after { animation-duration: .01ms !important; transition-duration: .01ms !important; }
+}
+
+/* ── Modo oscuro básico ──────────────────────────────────── */
+@media (prefers-color-scheme: dark) {
+  :root {
+    --bg:        #1A1A2E;
+    --card:      #242440;
+    --text:      #EEEEFF;
+    --text-light:#9999CC;
+    --border:    #3A3A5C;
+    --shadow:    0 4px 20px rgba(0,0,0,.4);
+    --shadow-sm: 0 2px 8px rgba(0,0,0,.3);
+  }
+  .btn-back { background: rgba(108,99,255,.15); }
+  .btn-secondary { background: var(--card); }
+  .btn-pick, .btn-quiz-opt, .btn-tf { background: var(--bg); color: var(--text); }
+}
